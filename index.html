@@ -387,3 +387,50 @@
   </script>
 </body>
 </html>
+<script>
+  const form = document.getElementById('productForm');
+  const productList = document.getElementById('productList');
+
+  let products = JSON.parse(localStorage.getItem('products')) || [];
+
+  function renderProducts() {
+    productList.innerHTML = '';
+    products.forEach((product, index) => {
+      const li = document.createElement('li');
+      li.innerHTML = 
+        <strong>${product.title}</strong> - ${product.price} تومان<br>
+        <img src="${product.image}" width="100"><br>
+        <em>${product.description}</em><br>
+        <button onclick="deleteProduct(${index})">حذف</button>
+        <hr>
+      ;
+      productList.appendChild(li);
+    });
+  }
+
+  function saveProducts() {
+    localStorage.setItem('products', JSON.stringify(products));
+  }
+
+  function deleteProduct(index) {
+    products.splice(index, 1);
+    saveProducts();
+    renderProducts();
+  }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const title = document.getElementById('title').value;
+    const price = document.getElementById('price').value;
+    const image = document.getElementById('image').value;
+    const description = document.getElementById('description').value;
+
+    const newProduct = { title, price, image, description };
+    products.push(newProduct);
+    saveProducts();
+    renderProducts();
+    form.reset();
+  });
+
+  renderProducts();
+</script>
