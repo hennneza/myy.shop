@@ -235,3 +235,53 @@ footer {
 .contact-form button:hover {
   background-color: #0056b3;
 }
+.product-detail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.detail-image {
+  flex: 1;
+  min-width: 300px;
+  text-align: center;
+}
+
+.detail-image img {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 15px;
+}
+
+.detail-info {
+  flex: 2;
+  min-width: 300px;
+}
+
+.detail-info h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.detail-info p {
+  margin: 10px 0;
+}
+
+.detail-info ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.detail-info ul li::before {
+  content: "✔ ";
+  color: green;
+  margin-left: 5px;
+}
+
+.detail-info .price {
+  color: #28a745;
+  font-size: 20px;
+  font-weight: bold;
+}
