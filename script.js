@@ -11,19 +11,25 @@ function login() {
 
   firebase.auth().signInWithEmailAndPassword(email, password)
     .then(() => {
-      window.location.href = "admin.html"; // هدایت به پنل مدیریت محصولات
+      window.location.href = "admin.html"; // هدایت به پنل مدیریت
     })
     .catch((error) => {
-      document.getElementById("loginError").textContent = "ایمیل یا رمز اشتباه است.";
+      document.getElementById("loginError").textContent = "ایمیل یا رمز عبور اشتباه است.";
     });
 }
+
 document.addEventListener("DOMContentLoaded", () => {
   const productContainer = document.getElementById("product-list");
 
-  // نمایش محصولات از Firestore
-  firebase.firestore().collection("products").get().then(snapshot => {
+  if (!productContainer) return; // جلوگیری از اجرای کد در صفحاتی که بخش محصولات ندارند
+
+  // دریافت و نمایش محصولات به صورت real-time
+  firebase.firestore().collection("products").onSnapshot(snapshot => {
+    productContainer.innerHTML = ""; // پاک کردن محصولات قبلی
+
     snapshot.forEach(doc => {
       const data = doc.data();
+
       const card = document.createElement("div");
       card.className = "product-card";
       card.innerHTML = 
@@ -32,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <p>${data.description}</p>
         <p><strong>${data.price.toLocaleString()} تومان</strong></p>
       ;
+
       productContainer.appendChild(card);
     });
   });
