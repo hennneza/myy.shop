@@ -121,3 +121,27 @@
 
 </body>
 </html>
+function logout() {
+  firebase.auth().signOut().then(() => window.location.href = "index.html");
+}
+
+window.onload = loadProducts;
+
+  </script>
+</head>
+<body>
+<header>پنل مدیریت محصولات - هنزا مارکت</header>
+<div class="container">
+  <div class="form">
+    <h3>افزودن محصول جدید</h3>
+    <input type="text" id="title" placeholder="نام محصول">
+    <textarea id="description" placeholder="توضیحات"></textarea>
+    <input type="text" id="price" placeholder="قیمت">
+    <input type="text" id="imageUrl" placeholder="آدرس عکس">
+    <button onclick="addProduct()">ثبت محصول</button>
+  </div>  <div class="product-list" id="productList"></div>  <div class="logout">
+    <button onclick="logout()">خروج از حساب</button>
+  </div>
+</div>
+</body>
+</html>
