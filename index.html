@@ -584,3 +584,91 @@ const analytics = getAnalytics(app);
   <button onclick="login()">ورود</button>
   <p id="login-error" style="color:red;"></p>
 </div>
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>ورود مدیر سایت</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #111;
+      color: white;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box {
+      background: #222;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px #0f0;
+      width: 100%;
+      max-width: 400px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #0f0;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .hidden {
+      display: none;
+    }
+    #dashboard {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-box" id="loginBox">
+    <h2>ورود مدیر سایت</h2>
+    <input type="text" id="username" placeholder="نام کاربری">
+    <input type="password" id="password" placeholder="رمز عبور">
+    <button onclick="login()">ورود</button>
+  </div>
+
+  <div class="login-box hidden" id="dashboard">
+    <h2>پنل مدیریت فروشگاه</h2>
+    <p>به پنل خوش آمدید.</p>
+    <button onclick="logout()">خروج</button>
+  </div>
+
+  <script>
+    const ADMIN_USER = "admin";
+    const ADMIN_PASS = "123456"; // رمز رو می‌تونی خودت عوض کنی
+
+    function login() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+
+      if (user === ADMIN_USER && pass === ADMIN_PASS) {
+        document.getElementById("loginBox").classList.add("hidden");
+        document.getElementById("dashboard").classList.remove("hidden");
+      } else {
+        alert("نام کاربری یا رمز عبور اشتباه است.");
+      }
+    }
+
+    function logout() {
+      document.getElementById("dashboard").classList.add("hidden");
+      document.getElementById("loginBox").classList.remove("hidden");
+    }
+  </script>
+
+</body>
+</html>
