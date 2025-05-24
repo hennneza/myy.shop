@@ -577,3 +577,10 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+<div id="login-container">
+  <h2>ورود مدیر سایت</h2>
+  <input type="email" id="email" placeholder="ایمیل مدیر">
+  <input type="password" id="password" placeholder="رمز عبور">
+  <button onclick="login()">ورود</button>
+  <p id="login-error" style="color:red;"></p>
+</div>
