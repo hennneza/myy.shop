@@ -96,3 +96,36 @@
     }
   </script></body>
 </html>
+function loadProducts() {
+      const list = document.getElementById("product-list");
+      list.innerHTML = "";
+      db.collection("products").get().then(snapshot => {
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          list.innerHTML += 
+            <div class="col-md-4">
+              <div class="product-card text-center">
+                <img src="${data.image}" alt="${data.name}">
+                <h5>${data.name}</h5>
+                <p>${data.desc}</p>
+                <strong>${data.price} تومان</strong>
+              </div>
+            </div>;
+        });
+      });
+    }
+
+    function addProduct(e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const desc = document.getElementById("desc").value;
+      const price = document.getElementById("price").value;
+      const image = document.getElementById("image").value;
+      db.collection("products").add({ name, desc, price, image }).then(() => {
+        alert("محصول ذخیره شد");
+        showSection('products');
+        loadProducts();
+      });
+    }
+  </script></body>
+</html>
