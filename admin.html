@@ -99,3 +99,34 @@
   });
 </script></body>
 </html>
+<script>
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-lite.js";
+  const db = getFirestore(app);
+
+  document.getElementById("addProductForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById("productName").value.trim();
+    const description = document.getElementById("productDesc").value.trim();
+    const price = parseInt(document.getElementById("productPrice").value.trim());
+    const image = document.getElementById("productImage").value.trim();
+
+    if (!name  !description  !price || !image) {
+      alert("لطفاً تمام فیلدها را پر کنید.");
+      return;
+    }
+
+    try {
+      await addDoc(collection(db, "products"), {
+        name,
+        description,
+        price,
+        image
+      });
+      alert("محصول با موفقیت اضافه شد!");
+      document.getElementById("addProductForm").reset();
+    } catch (error) {
+      alert("خطا در افزودن محصول: " + error.message);
+    }
+  });
+</script>
