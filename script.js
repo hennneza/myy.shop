@@ -8,7 +8,6 @@ const firebaseConfig = {
   appId: "1:1076999155269:web:e0b9faef9b0cecb3f97d2c"
 };
 
-// مقداردهی اولیه به Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
@@ -20,42 +19,46 @@ function login() {
 
   auth.signInWithEmailAndPassword(email, password)
     .then(() => {
-      window.location.href = "admin.html";
+      document.getElementById("admin-login-box").style.display = "none";
+      document.getElementById("admin-dashboard").style.display = "block";
     })
     .catch(() => {
       document.getElementById("loginError").textContent = "ایمیل یا رمز عبور اشتباه است.";
     });
 }
 
-// افزودن محصول
+// پس از بارگذاری کامل صفحه
 document.addEventListener("DOMContentLoaded", () => {
-  const addForm = document.getElementById("addProductForm");
+  const form = document.querySelector(".product-form");
 
-  if (addForm) {
-    addForm.addEventListener("submit", async (e) => {
+  if (form) {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const name = document.getElementById("productName").value;
-      const description = document.getElementById("productDescription").value;
+      const name = document.getElementById("productName").value.trim();
+      const description = document.getElementById("productDescription").value.trim();
       const price = parseInt(document.getElementById("productPrice").value);
-      const image = document.getElementById("productImage").value;
+      const image = document.getElementById("productImage").value.trim();
 
       if (!name  !description  !price || !image) {
-        alert("لطفاً همه فیلدها را پر کنید");
+        alert("همه فیلدها باید پر شوند.");
         return;
       }
 
-      await db.collection("products").add({ name, description, price, image });
-      addForm.reset();
+      try {
+        await db.collection("products").add({ name, description, price, image });
+        form.reset();
+      } catch (err) {
+        console.error("خطا در افزودن محصول:", err);
+      }
     });
   }
 
-  // نمایش محصولات
-  const productContainer = document.getElementById("product-list");
-
-  if (productContainer) {
+  const productList = document.getElementById("product-list");
+  if (productList) {
     db.collection("products").onSnapshot(snapshot => {
-      productContainer.innerHTML = "";
+      productList.innerHTML = "";
+
       snapshot.forEach(doc => {
         const data = doc.data();
         const card = document.createElement("div");
@@ -67,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <p><strong>${data.price.toLocaleString()} تومان</strong></p>
           <button onclick="deleteProduct('${doc.id}')">حذف</button>
         ;
-        productContainer.appendChild(card);
+        productList.appendChild(card);
       });
     });
   }
@@ -75,7 +78,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // حذف محصول
 function deleteProduct(id) {
-  if (confirm("آیا از حذف این محصول مطمئن هستید؟")) {
-    firebase.firestore().collection("products").doc(id).delete();
+  if (confirm("از حذف این محصول مطمئن هستید؟")) {
+    db.collection("products").doc(id).delete().catch(err => {
+      console.error("خطا در حذف:", err);
+    });
   }
 }
