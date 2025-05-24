@@ -63,6 +63,28 @@
         const data = doc.data();
         const col = document.createElement("div");
         col.className = "col-md-4";
+      <div class="container mt-5">
+  <h4 class="mb-3">افزودن محصول جدید</h4>
+  <form id="addProductForm" class="border p-4 rounded bg-light shadow-sm">
+    <div class="mb-3">
+      <label for="productName" class="form-label">نام محصول</label>
+      <input type="text" class="form-control" id="productName" required>
+    </div>
+    <div class="mb-3">
+      <label for="productDesc" class="form-label">توضیحات</label>
+      <textarea class="form-control" id="productDesc" rows="3" required></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="productPrice" class="form-label">قیمت (تومان)</label>
+      <input type="number" class="form-control" id="productPrice" required>
+    </div>
+    <div class="mb-3">
+      <label for="productImage" class="form-label">لینک عکس</label>
+      <input type="url" class="form-control" id="productImage" required>
+    </div>
+    <button type="submit" class="btn btn-success">افزودن محصول</button>
+  </form>
+</div>
         col.innerHTML = 
           <div class="product-card">
             <img src="${data.image}" alt="${data.name}">
