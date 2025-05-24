@@ -338,3 +338,52 @@
   </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>پنل مدیریت هنزا مارکت</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="admin-container">
+    <h2>پنل مدیریت محصولات</h2>
+
+    <form id="productForm">
+      <input type="text" id="title" placeholder="نام محصول" required />
+      <input type="text" id="price" placeholder="قیمت (تومان)" required />
+      <input type="text" id="image" placeholder="لینک عکس محصول" required />
+      <textarea id="description" placeholder="توضیحات محصول" required></textarea>
+      <button type="submit">افزودن محصول</button>
+    </form>
+
+    <h3>لیست محصولات</h3>
+    <ul id="productList"></ul>
+  </div>
+
+  <script>
+    const form = document.getElementById('productForm');
+    const productList = document.getElementById('productList');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const title = document.getElementById('title').value;
+      const price = document.getElementById('price').value;
+      const image = document.getElementById('image').value;
+      const desc = document.getElementById('description').value;
+
+      const li = document.createElement('li');
+      li.innerHTML = 
+        <strong>${title}</strong> - ${price} تومان <br>
+        <img src="${image}" width="100"><br>
+        <em>${desc}</em>
+        <hr>
+      ;
+      productList.appendChild(li);
+
+      form.reset();
+    });
+  </script>
+</body>
+</html>
