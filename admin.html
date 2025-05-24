@@ -1,141 +1,48 @@
-<!DOCTYPE html><html lang="fa">
+<!DOCTYPE html><html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ورود مدیر | هنزا مارکت</title>
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>پنل مدیریت هنزا مارکت</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
   <style>
     body {
-      margin: 0;
-      font-family: 'Vazirmatn', sans-serif;
-      background: linear-gradient(135deg, #343a40, #212529);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+      background-color: #f1f3f5;
+      font-family: 'Tahoma', sans-serif;
     }
-    .login-box {
-      background: #2c3036;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    .navbar {
+      background-color: #343a40;
+    }
+    .navbar-brand {
+      color: white;
+      font-weight: bold;
+    }
+    .container {
+      margin-top: 30px;
+    }
+    .product-card {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    .product-card img {
       width: 100%;
-      max-width: 400px;
-    }
-    .login-box h2 {
-      margin-bottom: 25px;
-      font-size: 24px;
-      text-align: center;
-    }
-    .login-box input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: none;
+      height: 200px;
+      object-fit: cover;
       border-radius: 8px;
-      background: #495057;
-      color: #fff;
-      font-size: 16px;
-    }
-    .login-box button {
-      width: 100%;
-      padding: 12px;
-      background: #00c896;
-      border: none;
-      border-radius: 8px;
-      color: #fff;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .login-box button:hover {
-      background: #00a17a;
-    }
-    .error {
-      color: #ff6b6b;
-      margin-top: 10px;
-      text-align: center;
     }
   </style>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
 </head>
-<body>
-  <div class="login-box">
-    <h2>ورود مدیر سایت</h2>
-    <input type="email" id="email" placeholder="ایمیل مدیر">
-    <input type="password" id="password" placeholder="رمز عبور">
-    <button onclick="loginAdmin()">ورود</button>
-    <div class="error" id="error"></div>
-  </div>  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyCLLxGoXKHON91hM4VlztO_Bme4L2UFxz4",
-      authDomain: "heneza-6e5c4.firebaseapp.com",
-      projectId: "heneza-6e5c4",
-      storageBucket: "heneza-6e5c4.firebasestorage.app",
-      messagingSenderId: "1076999155269",
-      appId: "1:1076999155269:web:e0b9faef9b0cecb3f97d2c"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    function loginAdmin() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      const errorDiv = document.getElementById("error");
-
-      auth.signInWithEmailAndPassword(email, password)
-        .then(() => {
-          window.location.href = "admin.html";
-        })
-        .catch((error) => {
-          errorDiv.textContent = "ورود ناموفق: ایمیل یا رمز اشتباه است.";
-        });
-    }
-  </script></body>
-</html>
-function loadProducts() {
-      const list = document.getElementById("product-list");
-      list.innerHTML = "";
-      db.collection("products").get().then(snapshot => {
-        snapshot.forEach(doc => {
-          const data = doc.data();
-          list.innerHTML += 
-            <div class="col-md-4">
-              <div class="product-card text-center">
-                <img src="${data.image}" alt="${data.name}">
-                <h5>${data.name}</h5>
-                <p>${data.desc}</p>
-                <strong>${data.price} تومان</strong>
-              </div>
-            </div>;
-        });
-      });
-    }
-
-    function addProduct(e) {
-      e.preventDefault();
-      const name = document.getElementById("name").value;
-      const desc = document.getElementById("desc").value;
-      const price = document.getElementById("price").value;
-      const image = document.getElementById("image").value;
-      db.collection("products").add({ name, desc, price, image }).then(() => {
-        alert("محصول ذخیره شد");
-        showSection('products');
-        loadProducts();
-      });
-    }
-  </script><!-- Firebase App -->
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-<!-- Firestore -->
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-<!-- Auth (برای ورود مدیر) -->
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-
-<script>
-  // تنظیمات Firebase خودت رو اینجا وارد کن:
+<body><nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">پنل مدیریت هنزا مارکت</a>
+  </div>
+</nav><div class="container">
+  <h2 class="mb-4">مدیریت محصولات</h2>
+  <div id="product-list" class="row g-4">
+    <!-- محصولات از Firebase بارگذاری می‌شوند -->
+  </div>
+</div><!-- Firebase App --><script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script><!-- Firestore --><script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script><!-- Auth --><script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script><script>
   const firebaseConfig = {
     apiKey: "AIzaSyCLLxGoXKHON91hM4VlztO_Bme4L2UFxz4",
     authDomain: "heneza-6e5c4.firebaseapp.com",
@@ -147,6 +54,26 @@ function loadProducts() {
 
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
-</script>
-<script src="script.js"></script></body>
+
+  // بارگذاری محصولات
+  document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("product-list");
+    db.collection("products").get().then(snapshot => {
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const col = document.createElement("div");
+        col.className = "col-md-4";
+        col.innerHTML = 
+          <div class="product-card">
+            <img src="${data.image}" alt="${data.name}">
+            <h5 class="mt-2">${data.name}</h5>
+            <p>${data.description}</p>
+            <p class="fw-bold text-success">${data.price.toLocaleString()} تومان</p>
+          </div>
+        ;
+        container.appendChild(col);
+      });
+    });
+  });
+</script></body>
 </html>
