@@ -1,48 +1,159 @@
-<!DOCTYPE html><html lang="fa" dir="rtl">
+<!DOCTYPE html>
+<html lang="fa">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>پنل مدیریت هنزا مارکت</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>پنل مدیریت - هنزا مارکت</title>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn&display=swap" rel="stylesheet">
   <style>
     body {
-      background-color: #f1f3f5;
-      font-family: 'Tahoma', sans-serif;
+      font-family: 'Vazirmatn', sans-serif;
+      direction: rtl;
+      margin: 0;
+      background: #f2f2f2;
     }
-    .navbar {
+
+    header {
       background-color: #343a40;
-    }
-    .navbar-brand {
       color: white;
+      padding: 20px;
+      font-size: 20px;
+      text-align: center;
+    }
+
+    #admin-login-box {
+      max-width: 400px;
+      margin: 40px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    #admin-login-box input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    #admin-login-box button {
+      width: 100%;
+      padding: 10px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
       font-weight: bold;
     }
-    .container {
-      margin-top: 30px;
-    }
-    .product-card {
+
+    .dashboard {
+      max-width: 1000px;
+      margin: 30px auto;
       background: white;
-      border-radius: 12px;
-      padding: 15px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
     }
-    .product-card img {
+
+    .dashboard h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .product-form input {
+      padding: 10px;
+      margin: 10px 0;
       width: 100%;
-      height: 200px;
-      object-fit: cover;
       border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .product-form button {
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .product-list {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .product-card {
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 12px;
+      background: #fafafa;
+      text-align: center;
+    }
+
+    .product-card img {
+      max-width: 100%;
+      height: 150px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .product-card h3 {
+      font-size: 18px;
+      margin: 10px 0 5px;
+    }
+
+    .product-card p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+
+    #loginError {
+      color: red;
+      margin-bottom: 10px;
     }
   </style>
 </head>
-<body><nav class="navbar navbar-expand-lg">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">پنل مدیریت هنزا مارکت</a>
+<body>
+
+<header>پنل مدیریت هنزا مارکت</header>
+
+<div id="admin-login-box">
+  <h3>ورود مدیر</h3>
+  <div id="loginError"></div>
+  <input type="email" id="adminEmail" placeholder="ایمیل مدیر">
+  <input type="password" id="adminPassword" placeholder="رمز عبور">
+  <button onclick="login()">ورود</button>
+</div>
+
+<div class="dashboard" style="display: none;" id="admin-dashboard">
+  <h2>افزودن محصول جدید</h2>
+  <div class="product-form">
+    <input type="text" id="productName" placeholder="نام محصول">
+    <input type="text" id="productDescription" placeholder="توضیحات">
+    <input type="number" id="productPrice" placeholder="قیمت (تومان)">
+    <input type="text" id="productImage" placeholder="لینک تصویر محصول">
+    <button onclick="addProduct()">افزودن محصول</button>
   </div>
-</nav><div class="container">
-  <h2 class="mb-4">مدیریت محصولات</h2>
-  <div id="product-list" class="row g-4">
+
+  <div class="product-list" id="product-list">
     <!-- محصولات از Firebase بارگذاری می‌شوند -->
   </div>
-</div><!-- Firebase App --><script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script><!-- Firestore --><script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script><!-- Auth --><script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script><script>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+<!-- اتصال به پروژه Firebase شما -->
+<script>
   const firebaseConfig = {
     apiKey: "AIzaSyCLLxGoXKHON91hM4VlztO_Bme4L2UFxz4",
     authDomain: "heneza-6e5c4.firebaseapp.com",
@@ -53,80 +164,8 @@
   };
 
   firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-
-  // بارگذاری محصولات
-  document.addEventListener("DOMContentLoaded", () => {
-    const container = document.getElementById("product-list");
-    db.collection("products").get().then(snapshot => {
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        const col = document.createElement("div");
-        col.className = "col-md-4";
-      <div class="container mt-5">
-  <h4 class="mb-3">افزودن محصول جدید</h4>
-  <form id="addProductForm" class="border p-4 rounded bg-light shadow-sm">
-    <div class="mb-3">
-      <label for="productName" class="form-label">نام محصول</label>
-      <input type="text" class="form-control" id="productName" required>
-    </div>
-    <div class="mb-3">
-      <label for="productDesc" class="form-label">توضیحات</label>
-      <textarea class="form-control" id="productDesc" rows="3" required></textarea>
-    </div>
-    <div class="mb-3">
-      <label for="productPrice" class="form-label">قیمت (تومان)</label>
-      <input type="number" class="form-control" id="productPrice" required>
-    </div>
-    <div class="mb-3">
-      <label for="productImage" class="form-label">لینک عکس</label>
-      <input type="url" class="form-control" id="productImage" required>
-    </div>
-    <button type="submit" class="btn btn-success">افزودن محصول</button>
-  </form>
-</div>
-        col.innerHTML = 
-          <div class="product-card">
-            <img src="${data.image}" alt="${data.name}">
-            <h5 class="mt-2">${data.name}</h5>
-            <p>${data.description}</p>
-            <p class="fw-bold text-success">${data.price.toLocaleString()} تومان</p>
-          </div>
-        ;
-        container.appendChild(col);
-      });
-    });
-  });
-</script></body>
-</html>
-<script>
-  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-lite.js";
-  const db = getFirestore(app);
-
-  document.getElementById("addProductForm").addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    const name = document.getElementById("productName").value.trim();
-    const description = document.getElementById("productDesc").value.trim();
-    const price = parseInt(document.getElementById("productPrice").value.trim());
-    const image = document.getElementById("productImage").value.trim();
-
-    if (!name  !description  !price || !image) {
-      alert("لطفاً تمام فیلدها را پر کنید.");
-      return;
-    }
-
-    try {
-      await addDoc(collection(db, "products"), {
-        name,
-        description,
-        price,
-        image
-      });
-      alert("محصول با موفقیت اضافه شد!");
-      document.getElementById("addProductForm").reset();
-    } catch (error) {
-      alert("خطا در افزودن محصول: " + error.message);
-    }
-  });
 </script>
+<!-- فایل اسکریپت شما -->
+<script src="script.js"></script>
+</body>
+</html>
