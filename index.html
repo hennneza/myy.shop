@@ -556,3 +556,24 @@
   </script>
 </body>
 </html>
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBsU3WpfPBgFr23A7j0zozXuweU_iHS_us",
+  authDomain: "heneza-e5e7d.firebaseapp.com",
+  projectId: "heneza-e5e7d",
+  storageBucket: "heneza-e5e7d.firebasestorage.app",
+  messagingSenderId: "859012209675",
+  appId: "1:859012209675:web:b527ee743e8c2c370f7b0e",
+  measurementId: "G-EV85MCVNBZ"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
