@@ -434,3 +434,40 @@
 
   renderProducts();
 </script>
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ورود مدیر</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="login-box">
+    <h2>ورود مدیر سایت</h2>
+    <form onsubmit="return login(event)">
+      <label>نام کاربری</label>
+      <input type="text" id="username" required />
+      <label>رمز عبور</label>
+      <input type="password" id="password" required />
+      <button type="submit">ورود</button>
+    </form>
+    <p id="login-error" style="color:red; display:none;">نام کاربری یا رمز اشتباه است.</p>
+  </div>
+
+  <script>
+    function login(e) {
+      e.preventDefault();
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+
+      if (user === 'admin' && pass === '1234') {
+        localStorage.setItem('isLoggedIn', 'true');
+        window.location.href = 'admin-panel.html';
+      } else {
+        document.getElementById('login-error').style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>
