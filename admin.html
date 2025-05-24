@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>پنل مدیریت - هنزا مارکت</title>
+  <style>
+    body {
+      font-family: Tahoma, sans-serif;
+      direction: rtl;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+    .form-box {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    .form-box input, .form-box textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    .form-box button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #28a745;
+      color: white;
+      cursor: pointer;
+    }
+    .logout {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .logout button {
+      background: #dc3545;
+    }
+  </style>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "اینجا_مقدار_خودت_را_بذار",
+      authDomain: "اینجا_مقدار_خودت_را_بذار",
+      projectId: "اینجا_مقدار_خودت_را_بذار",
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = "index.html";
+      }
+    });
+  </script>
+</head>
+<body>
+
+<h1>پنل مدیریت هنزا مارکت</h1>
+
+<div class="form-box">
+  <h3>افزودن محصول جدید</h3>
+  <input type="text" id="title" placeholder="نام محصول">
+  <textarea id="description" placeholder="توضیحات محصول"></textarea>
+  <input type="text" id="price" placeholder="قیمت (تومان)">
+  <input type="text" id="imageUrl" placeholder="آدرس عکس محصول (URL)">
+  <button onclick="addProduct()">ثبت محصول</button>
+  <p id="message"></p>
+</div>
+
+<div class="logout">
+  <button onclick="logout()">خروج از حساب</button>
+</div>
+
+<script>
+  function addProduct() {
+    const title = document.getElementById("title").value;
+    const description = document.getElementById("description").value;
+    const price = document.getElementById("price").value;
+    const imageUrl = document.getElementById("imageUrl").value;
+
+    if (!title  !price  !imageUrl) {
+      document.getElementById("message").textContent = "لطفاً تمام فیلدها را پر کنید.";
+      return;
+    }
+
+    db.collection("products").add({
+      title,
+      description,
+      price,
+      imageUrl,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+      document.getElementById("message").textContent = "محصول با موفقیت اضافه شد.";
+      document.getElementById("title").value = "";
+      document.getElementById("description").value = "";
+      document.getElementById("price").value = "";
+      document.getElementById("imageUrl").value = "";
+    }).catch(err => {
+      document.getElementById("message").textContent = "خطا در افزودن محصول.";
+    });
+  }
+
+  function logout() {
+    firebase.auth().signOut().then(() => {
+      window.location.href = "index.html";
+    });
+  }
+</script>
+
+</body>
+</html>
