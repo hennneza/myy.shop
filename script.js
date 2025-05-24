@@ -17,3 +17,22 @@ function login() {
       document.getElementById("loginError").textContent = "ایمیل یا رمز اشتباه است.";
     });
 }
+document.addEventListener("DOMContentLoaded", () => {
+  const productContainer = document.getElementById("product-list");
+
+  // نمایش محصولات از Firestore
+  firebase.firestore().collection("products").get().then(snapshot => {
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML = 
+        <img src="${data.image}" alt="${data.name}">
+        <h3>${data.name}</h3>
+        <p>${data.description}</p>
+        <p><strong>${data.price.toLocaleString()} تومان</strong></p>
+      ;
+      productContainer.appendChild(card);
+    });
+  });
+});
