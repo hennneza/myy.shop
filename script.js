@@ -7,3 +7,8 @@ document.querySelectorAll("button").forEach(btn => {
     alert("محصول به سبد خرید اضافه شد!");
   });
 });
+document.querySelectorAll('.add-to-cart').forEach(button => {
+  button.addEventListener('click', () => {
+    alert('محصول به سبد خرید اضافه شد!');
+  });
+});
