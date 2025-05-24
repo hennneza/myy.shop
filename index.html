@@ -471,3 +471,88 @@
   </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>پنل مدیریت هنزا مارکت</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="admin-container">
+    <h2>پنل مدیریت محصولات</h2>
+
+    <button onclick="logout()" style="float: left; margin-bottom: 20px; background: #dc3545; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer;">خروج</button>
+
+    <form id="productForm">
+      <input type="text" id="title" placeholder="نام محصول" required />
+      <input type="text" id="price" placeholder="قیمت (تومان)" required />
+      <input type="text" id="image" placeholder="لینک عکس محصول" required />
+      <textarea id="description" placeholder="توضیحات محصول" required></textarea>
+      <button type="submit">افزودن محصول</button>
+    </form>
+
+    <h3>لیست محصولات</h3>
+    <ul id="productList"></ul>
+  </div>
+
+  <script>
+    // چک کردن ورود
+    if (!localStorage.getItem('isLoggedIn')) {
+      window.location.href = 'admin-login.html';
+    }
+
+    const form = document.getElementById('productForm');
+    const productList = document.getElementById('productList');
+
+    let products = JSON.parse(localStorage.getItem('products')) || [];
+
+    function renderProducts() {
+      productList.innerHTML = '';
+      products.forEach((product, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = 
+          <strong>${product.title}</strong> - ${product.price} تومان<br>
+          <img src="${product.image}" width="100" alt="${product.title}"><br>
+          <em>${product.description}</em><br>
+          <button onclick="deleteProduct(${index})" style="background:#dc3545; color:#fff; border:none; border-radius:5px; padding:5px 10px; cursor:pointer;">حذف</button>
+          <hr>
+        ;
+        productList.appendChild(li);
+      });
+    }
+
+    function saveProducts() {
+      localStorage.setItem('products', JSON.stringify(products));
+    }
+
+    function deleteProduct(index) {
+      products.splice(index, 1);
+      saveProducts();
+      renderProducts();
+    }
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const title = document.getElementById('title').value;
+      const price = document.getElementById('price').value;
+      const image = document.getElementById('image').value;
+      const description = document.getElementById('description').value;
+
+      const newProduct = { title, price, image, description };
+      products.push(newProduct);
+      saveProducts();
+      renderProducts();
+      form.reset();
+    });
+
+    function logout() {
+      localStorage.removeItem('isLoggedIn');
+      window.location.href = 'admin-login.html';
+    }
+
+    renderProducts();
+  </script>
+</body>
+</html>
