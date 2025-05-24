@@ -313,3 +313,37 @@ footer {
   font-size: 16px;
   cursor: pointer;
 }
+.admin-container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+  direction: rtl;
+  font-family: 'Tahoma';
+}
+
+.admin-container input,
+.admin-container textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.admin-container button {
+  padding: 12px 20px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.admin-container ul {
+  list-style: none;
+  padding: 0;
+}
