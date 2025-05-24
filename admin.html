@@ -127,5 +127,26 @@ function loadProducts() {
         loadProducts();
       });
     }
-  </script></body>
+  </script><!-- Firebase App -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<!-- Firestore -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+<!-- Auth (برای ورود مدیر) -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+
+<script>
+  // تنظیمات Firebase خودت رو اینجا وارد کن:
+  const firebaseConfig = {
+    apiKey: "AIzaSyCLLxGoXKHON91hM4VlztO_Bme4L2UFxz4",
+    authDomain: "heneza-6e5c4.firebaseapp.com",
+    projectId: "heneza-6e5c4",
+    storageBucket: "heneza-6e5c4.appspot.com",
+    messagingSenderId: "1076999155269",
+    appId: "1:1076999155269:web:e0b9faef9b0cecb3f97d2c"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+</script>
+<script src="script.js"></script></body>
 </html>
